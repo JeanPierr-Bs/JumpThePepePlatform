@@ -6,33 +6,27 @@ using UnityEngine;
 public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
+
     private Vector3 respawnPosition;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        instance = this;
     }
 
     void Start()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        // Verifica si el personaje existe antes de asignar la posición de respawn
-        if (playerController.instance != null)
-        {
-            respawnPosition = playerController.instance.transform.position;
-        }
-        else
-        {
-            Debug.LogError("PlayerController no encontrado en la escena.");
-        }
+        respawnPosition = playerController.instance.transform.position;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUnpase();
+        }
     }
 
     public void Respawn()
@@ -42,43 +36,58 @@ public class gameManager : MonoBehaviour
 
     public IEnumerator RespawnWaiter()
     {
-        
+        Debug.Log("Jugador cayó fuera del mapa, reduciendo velocidad...");
 
+        // Reducir la velocidad antes de reaparecer
+        playerController.instance.SetMoveSpeed(2f); // Velocidad baja antes del respawn
+
+        //Desactiva al jugador
         playerController.instance.gameObject.SetActive(false);
         cameraController.instance.cmBrain.enabled = false;
 
-        UIManager.Instance.fadeFromBlack = true;
+        //Desactiva la UI
+        UIManager.Instance.fadeToBlack = true;
 
         yield return new WaitForSeconds(2f);
 
         UIManager.Instance.fadeFromBlack = true;
 
-        CharacterController charController = playerController.instance.GetComponent<CharacterController>();
+        //Restaura la posicion del jugador
+        playerController.instance.transform.position = respawnPosition;
+        Debug.Log("El jugador acaba de aparecer en: " + respawnPosition);
 
-        if (charController != null)
-        {
-            charController.enabled = false;  // Desactiva el CharacterController antes de moverlo
-        }
+        //Restaura la velocidad del jugador
+        playerController.instance.SetMoveSpeed(25f); // Restaurar velocidad normal
 
-        Vector3 safeRespawn = respawnPosition + new Vector3(0, 2f, 0); // Subir la posición para evitar el suelo
-        playerController.instance.transform.position = safeRespawn;
-
-        Debug.Log("Jugador reaparecido en: " + safeRespawn); // Verificar la nueva posición
-
-        if (charController != null)
-        {
-            charController.enabled = true;  // Reactivar CharacterController después de moverlo
-        }
-
-        //playerController.instance.GetComponent<CharacterController>().Move(Vector3.zero); // Detener cualquier movimiento
-
-        cameraController.instance.cmBrain.enabled = true;
+        //Reactiva al jugador
         playerController.instance.gameObject.SetActive(true);
+        cameraController.instance.cmBrain.enabled = true;
     }
 
     public void SetSpawnPoint(Vector3 newSpawnPoint)
     {
         respawnPosition = newSpawnPoint;
-        Debug.Log("Spawn Set at: " + respawnPosition);
+        Debug.Log("Spawn Set");
+    }
+
+    public void PauseUnpase()
+    {
+        if (UIManager.Instance.pauseScreen.activeInHierarchy)
+        {
+            UIManager.Instance.pauseScreen.SetActive(false);
+            Time.timeScale = 1f;
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            UIManager.Instance.pauseScreen.SetActive(true);
+            UIManager.Instance.CloseOptions();
+            Time.timeScale = 0f;
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 }

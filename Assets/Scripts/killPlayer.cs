@@ -6,11 +6,9 @@ public class killPlayer : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger detectado con: " + other.gameObject.name); // Verificar qué colisiona
-
-        if (other.CompareTag("Player"))
+        if (other.tag == "Player")
         {
-            Debug.Log("¡Jugador murió! Activando Respawn...");
+            Debug.Log("Vaya, Vaya, el jugador ha muerto");
             gameManager.instance.Respawn();
         }
     }

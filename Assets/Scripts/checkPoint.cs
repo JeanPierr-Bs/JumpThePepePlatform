@@ -17,10 +17,18 @@ public class checkPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger detectado con: " + other.gameObject.name); // Ver si el player entra
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("¡Jugador murió! Activando Respawn...");
-            gameManager.instance.Respawn();
+            Debug.Log("El jugador ha tomado un respawn" + transform.position);
+            gameManager.instance.SetSpawnPoint(transform.position);
+
+            checkPoint[] allCP = FindObjectsOfType<checkPoint>(); 
+            for (int i = 0; i < allCP.Length; i++)
+            {
+                allCP[i].cpOff.SetActive(true);
+                allCP[i].cpOn.SetActive(false);
+            }
 
             cpOff.SetActive(false);
             cpOn.SetActive(true);

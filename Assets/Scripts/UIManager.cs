@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -10,6 +11,8 @@ public class UIManager : MonoBehaviour
     public Image blackScreen;
     public float fadeSpeed;
     public bool fadeToBlack, fadeFromBlack;
+
+    public GameObject pauseScreen, optionsScreen;
 
     private void Awake()
     {
@@ -40,4 +43,30 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    public void Resume()
+    {
+        gameManager.instance.PauseUnpase();
+    }
+
+    public void OpenOptions()
+    {
+        optionsScreen.SetActive(true);
+    }
+
+    public void CloseOptions()
+    {
+        optionsScreen.SetActive(false);
+    }
+
+    public void LevelSelect()
+    {
+
+    }
+
+    public void MainMenu()
+    {
+
+    }
+
 }
