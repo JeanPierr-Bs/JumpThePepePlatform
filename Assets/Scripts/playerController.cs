@@ -12,13 +12,13 @@ public class playerController : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject playerModel;
     [SerializeField] private Animator anim;
-    [SerializeField] private float knockBackLength = .5f;
-    [SerializeField] private float knockBackForce = 5f;
+    // [SerializeField] private float knockBackLength = .5f;
+    // [SerializeField] private float knockBackForce = 5f;
     public static playerController instance;
     private Vector3 moveDirection;
-    private Vector3 knowbackDirection;
-    public bool isKnocking;
-    private float knowBackCounter;
+    //private Vector3 knowbackDirection;
+    //public bool isKnocking;
+    //private float knowBackCounter;
     private bool isFirstPerson = false;
     private float rotationX = 0f;
 
@@ -35,18 +35,6 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
-        if (isKnocking)
-        {
-            knowBackCounter -= Time.deltaTime;
-            charController.Move(knowbackDirection * knockBackForce * Time.deltaTime); // Aplicar el knockback
-
-            if (knowBackCounter <= 0)
-            {
-                isKnocking = false;
-            }
-        }
-        else
-        {
             if (isFirstPerson)
             {
                 HandleFirstPersonView();
@@ -65,7 +53,6 @@ public class playerController : MonoBehaviour
             }
 
             charController.Move(moveDirection * Time.deltaTime);
-        }
 
         // Actualizar animación
         anim.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.z));
@@ -118,12 +105,5 @@ public class playerController : MonoBehaviour
         isFirstPerson = enable;
         Cursor.lockState = enable ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !enable;
-    }
-
-    public void Knocback(Vector3 knockBackDir)
-    {
-        isKnocking = true;
-        knowBackCounter = knockBackLength;
-        Debug.Log("Knoicoked Back");
     }
 }

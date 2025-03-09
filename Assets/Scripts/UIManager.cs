@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject pauseScreen, optionsScreen;
 
+    public Slider musicVolSlider, SfxVolSlider;
+
     private void Awake()
     {
         Instance = this;
@@ -67,6 +69,14 @@ public class UIManager : MonoBehaviour
     public void MainMenu()
     {
 
+    }
+    public void SetMusicLevel()
+    {
+        AudioManager.instance.SetMusicLevel();
+    }
+    public void SetSFXLevel()
+    {
+        AudioManager.instance.SetSFXLevel();
     }
 
 }

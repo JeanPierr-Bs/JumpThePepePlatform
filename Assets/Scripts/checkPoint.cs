@@ -5,6 +5,9 @@ using UnityEngine;
 public class checkPoint : MonoBehaviour
 {
     public GameObject cpOn, cpOff;
+    private bool isActive = false;
+
+    public int soundToPlay;
 
     void Start()
     {
@@ -18,7 +21,7 @@ public class checkPoint : MonoBehaviour
     {
         Debug.Log("Trigger detectado con: " + other.gameObject.name); // Ver si el player entra
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isActive)
         {
             Debug.Log("El jugador ha tomado un respawn" + transform.position);
             gameManager.instance.SetSpawnPoint(transform.position);
@@ -28,10 +31,17 @@ public class checkPoint : MonoBehaviour
             {
                 allCP[i].cpOff.SetActive(true);
                 allCP[i].cpOn.SetActive(false);
+                allCP[i].isActive = false;
             }
 
             cpOff.SetActive(false);
             cpOn.SetActive(true);
+            isActive = true;
+
+            if (soundToPlay >= 0)
+            {
+                AudioManager.instance.PlaySFX(soundToPlay);
+            }
         }
     }
 }

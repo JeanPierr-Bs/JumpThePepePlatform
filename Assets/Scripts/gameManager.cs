@@ -7,6 +7,8 @@ public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
 
+    public int soundToPlay;
+
     private Vector3 respawnPosition;
 
     private void Awake()
@@ -62,6 +64,9 @@ public class gameManager : MonoBehaviour
         //Reactiva al jugador
         playerController.instance.gameObject.SetActive(true);
         cameraController.instance.cmBrain.enabled = true;
+
+        //Activa el sonido de Respawn
+        AudioManager.instance.PlaySFX(soundToPlay);
     }
 
     public void SetSpawnPoint(Vector3 newSpawnPoint)
@@ -79,6 +84,10 @@ public class gameManager : MonoBehaviour
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+
+            // Habilitar movimiento del jugador
+            playerController.instance.enabled = true;
+
         }
         else
         {
@@ -88,6 +97,10 @@ public class gameManager : MonoBehaviour
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            // Deshabilitar movimiento del jugador
+            playerController.instance.enabled = false;
+
         }
     }
 }

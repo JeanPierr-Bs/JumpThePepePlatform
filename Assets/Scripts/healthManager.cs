@@ -7,7 +7,7 @@ public class healthManager : MonoBehaviour
 {
     public static healthManager Instance;
 
-    public int currentHealth, maxHealth;
+    //public int currentHealth, maxHealth;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class healthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
+        //currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class healthManager : MonoBehaviour
     {  
     }
 
-    public void Hurt(Vector3 damageSource)
+    /*public void Hurt(Vector3 damageSource)
     {
         currentHealth--;
 
@@ -32,10 +32,6 @@ public class healthManager : MonoBehaviour
         {
             currentHealth = 0;
             gameManager.instance.Respawn();
-        } else
-        {
-            Vector3 knockBackDir = playerController.instance.transform.position - damageSource;
-            playerController.instance.Knocback(knockBackDir);
         }
-    }
+    }*/
 }
