@@ -5,21 +5,27 @@ using UnityEngine;
 public class playerController : MonoBehaviour
 {
     public static playerController instance;
+
+    [Header("Movement and Gravity")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private CharacterController charController;
     [SerializeField] private float jumpForce;
+    [SerializeField] private Animator anim;
     [SerializeField] private float gravityScale = 5f;
     [SerializeField] private float mouseSensitivity = 2f;
-    [SerializeField] private float knockBackLength = .5f;
-    [SerializeField] private bool isKnocking;
-    [SerializeField] private CharacterController charController;
+    private Vector3 moveDirection;
+
+    [Header("Camera")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject playerModel;
-    [SerializeField] private Animator anim;
-    [SerializeField] private Vector2 knockBackPower;
-    private float knowBackCounter;
     private bool isFirstPerson = false;
     private float rotationX = 0f;
-    private Vector3 moveDirection;
+
+    [Header("Knocking")]
+    [SerializeField] private float knockBackLength = .5f;
+    [SerializeField] private bool isKnocking;
+    [SerializeField] private Vector2 knockBackPower;
+    private float knowBackCounter;
     public GameObject[] playerPieces;
 
     void Start()

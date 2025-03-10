@@ -9,6 +9,7 @@ public class gameManager : MonoBehaviour
     public int soundToPlay;
     public GameObject deathEffect;
     private Vector3 respawnPosition;
+    public int currentCoin;
 
     private void Awake()
     {
@@ -20,6 +21,8 @@ public class gameManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         respawnPosition = playerController.instance.transform.position;
+
+        AddCoins(0);
     }
 
     void Update()
@@ -81,6 +84,11 @@ public class gameManager : MonoBehaviour
         Debug.Log("Spawn Set");
     }
 
+    public void AddCoins(int coinsToAdd)
+    {
+        currentCoin += coinsToAdd;
+        UIManager.Instance.coinText.text = "" + currentCoin;
+    }
     public void PauseUnpase()
     {
         if (UIManager.Instance.pauseScreen.activeInHierarchy)

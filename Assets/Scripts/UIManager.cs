@@ -8,13 +8,17 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Black Screen")]
     public Image blackScreen;
-    public Image stuffedLife;
     public float fadeSpeed;
     public bool fadeToBlack, fadeFromBlack;
-
+    [Header("Pause Screen")]
     public GameObject pauseScreen, optionsScreen;
-
+    [Header("Life Bar")]
+    public Image stuffedLife;
+    [Header("Coins")]
+    public Text coinText;
+    [Header("Sounds Sliders")]
     public Slider musicVolSlider, SfxVolSlider;
 
     private void Awake()
