@@ -6,9 +6,8 @@ using UnityEngine;
 public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
-
     public int soundToPlay;
-
+    public GameObject deathEffect;
     private Vector3 respawnPosition;
 
     private void Awake()
@@ -34,6 +33,7 @@ public class gameManager : MonoBehaviour
     public void Respawn()
     {
         StartCoroutine(RespawnWaiter());
+        healthManager.Instance.PlayerKilled();
     }
 
     public IEnumerator RespawnWaiter()
@@ -50,6 +50,9 @@ public class gameManager : MonoBehaviour
         //Desactiva la UI
         UIManager.Instance.fadeToBlack = true;
 
+        //Activa el efecto del player
+        Instantiate(deathEffect, playerController.instance.transform.position + new Vector3(0f, 1f, 0f), playerController.instance.transform.rotation);
+
         yield return new WaitForSeconds(2f);
 
         UIManager.Instance.fadeFromBlack = true;
@@ -64,6 +67,9 @@ public class gameManager : MonoBehaviour
         //Reactiva al jugador
         playerController.instance.gameObject.SetActive(true);
         cameraController.instance.cmBrain.enabled = true;
+
+        //Resetea la vida del jugador
+        healthManager.Instance.ResetHealth();
 
         //Activa el sonido de Respawn
         AudioManager.instance.PlaySFX(soundToPlay);

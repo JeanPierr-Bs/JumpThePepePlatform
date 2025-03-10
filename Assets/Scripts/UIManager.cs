@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public Image blackScreen;
+    public Image stuffedLife;
     public float fadeSpeed;
     public bool fadeToBlack, fadeFromBlack;
 

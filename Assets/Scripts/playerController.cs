@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
+    public static playerController instance;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float gravityScale = 5f;
     [SerializeField] private float mouseSensitivity = 2f;
+    [SerializeField] private float knockBackLength = .5f;
+    [SerializeField] private bool isKnocking;
     [SerializeField] private CharacterController charController;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject playerModel;
     [SerializeField] private Animator anim;
-    // [SerializeField] private float knockBackLength = .5f;
-    // [SerializeField] private float knockBackForce = 5f;
-    public static playerController instance;
-    private Vector3 moveDirection;
-    //private Vector3 knowbackDirection;
-    //public bool isKnocking;
-    //private float knowBackCounter;
+    [SerializeField] private Vector2 knockBackPower;
+    private float knowBackCounter;
     private bool isFirstPerson = false;
     private float rotationX = 0f;
-
+    private Vector3 moveDirection;
+    public GameObject[] playerPieces;
 
     void Start()
     {
@@ -35,6 +34,8 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
+        if (!isKnocking)
+        {
             if (isFirstPerson)
             {
                 HandleFirstPersonView();
@@ -53,6 +54,22 @@ public class playerController : MonoBehaviour
             }
 
             charController.Move(moveDirection * Time.deltaTime);
+        }
+        if (isKnocking)
+        {
+            knowBackCounter -= Time.deltaTime;
+            float yStore = moveDirection.y;
+            moveDirection = (playerModel.transform.forward * knockBackPower.x);
+            //moveDirection.y = yStore;
+            moveDirection.y += (Physics.gravity.y * gravityScale) * Time.deltaTime;
+
+            charController.Move(moveDirection * Time.deltaTime);
+
+            if (knowBackCounter <= 0)
+            {
+                isKnocking = false;
+            }
+        }
 
         // Actualizar animación
         anim.SetFloat("Speed", Mathf.Abs(moveDirection.x) + Mathf.Abs(moveDirection.z));
@@ -105,5 +122,14 @@ public class playerController : MonoBehaviour
         isFirstPerson = enable;
         Cursor.lockState = enable ? CursorLockMode.Locked : CursorLockMode.None;
         Cursor.visible = !enable;
+    }
+
+    public void Knockback()
+    {
+        isKnocking = true;
+        knowBackCounter = knockBackLength;
+        Debug.Log("Knoicoked Back");
+        moveDirection.y = knockBackPower.y;
+        charController.Move(moveDirection * Time.deltaTime);
     }
 }
