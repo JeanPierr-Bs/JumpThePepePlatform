@@ -4941,6 +4941,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b7aaff0a8ff045242aea78de63816c2d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7290032a98756414eb51225e10b776ae, type: 2}
+    - target: {fileID: -7511558181221131132, guid: b7aaff0a8ff045242aea78de63816c2d, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: f806742d2803f204b8510c3dfc55a308, type: 2}
     - target: {fileID: 919132149155446097, guid: b7aaff0a8ff045242aea78de63816c2d, type: 3}
       propertyPath: m_Name
       value: CheckPoint
