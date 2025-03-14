@@ -21,7 +21,7 @@ public class healthManager : MonoBehaviour
     }
     void Update()
     {  
-        if (invincCounter > 0)
+        if (invincCounter > 0) //Activa y desactiva las piezas del player cuando resive daño
         {
             invincCounter -= Time.deltaTime;
             for (int i = 0; i < playerController.instance.playerPieces.Length; i++)
@@ -42,7 +42,7 @@ public class healthManager : MonoBehaviour
             }
         }
     }
-    public void Hurt()
+    public void Hurt() //Daño al player
     {
         if (invincCounter <= 0)
         {
@@ -61,7 +61,7 @@ public class healthManager : MonoBehaviour
         }
         UpdateUI();
     }
-    public void ResetHealth()
+    public void ResetHealth() //Actualiza la vida del player
     {
         currentHealth = maxHealth;
         UpdateUI();
@@ -75,13 +75,11 @@ public class healthManager : MonoBehaviour
         }
         UpdateUI();
     }
-    public void UpdateUI()
+    public void UpdateUI() //Actualiza el estado del texto en la vida
     {
-        //UIManager.Instance.stuffedLife.fillAmount = currentHealth / maxHealth;
-        float scale = (float)currentHealth / maxHealth;
-        UIManager.Instance.stuffedLife.transform.localScale = new Vector3(scale, 1, 1);
+       UIManager.Instance.healtText.text = currentHealth.ToString();
     }
-    public void PlayerKilled()
+    public void PlayerKilled()  //Muerte del player
     {
         currentHealth = 0;
         UpdateUI();

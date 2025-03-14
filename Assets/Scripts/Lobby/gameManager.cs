@@ -10,6 +10,7 @@ public class gameManager : MonoBehaviour
     public GameObject deathEffect;
     private Vector3 respawnPosition;
     public int currentCoin;
+    public int currentKey;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class gameManager : MonoBehaviour
         respawnPosition = playerController.instance.transform.position;
 
         AddCoins(0);
+        AddKey(0);
     }
 
     void Update()
@@ -33,7 +35,7 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    public void Respawn()
+    public void Respawn() //Guarda la posicion del player cuando muere
     {
         StartCoroutine(RespawnWaiter());
         healthManager.Instance.PlayerKilled();
@@ -78,18 +80,23 @@ public class gameManager : MonoBehaviour
         AudioManager.instance.PlaySFX(soundToPlay);
     }
 
-    public void SetSpawnPoint(Vector3 newSpawnPoint)
+    public void SetSpawnPoint(Vector3 newSpawnPoint) //Punto donde aparecera el player
     {
         respawnPosition = newSpawnPoint;
         Debug.Log("Spawn Set");
     }
 
-    public void AddCoins(int coinsToAdd)
+    public void AddCoins(int coinsToAdd) //Agrega los coins a la pantalla
     {
         currentCoin += coinsToAdd;
         UIManager.Instance.coinText.text = "" + currentCoin;
     }
-    public void PauseUnpase()
+    public void AddKey(int keyToAdd) //Agrega las keys a la pantalla
+    {
+        currentKey += keyToAdd;
+        UIManager.Instance.keyText.text = "" + currentKey;
+    }
+    public void PauseUnpase() //Pausa rl juego y abre el menu
     {
         if (UIManager.Instance.pauseScreen.activeInHierarchy)
         {

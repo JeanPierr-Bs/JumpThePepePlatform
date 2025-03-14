@@ -14,10 +14,12 @@ public class UIManager : MonoBehaviour
     public bool fadeToBlack, fadeFromBlack;
     [Header("Pause Screen")]
     public GameObject pauseScreen, optionsScreen;
-    [Header("Life Bar")]
-    public Image stuffedLife;
+    [Header("Health")]
+    public Text healtText;
     [Header("Coins")]
     public Text coinText;
+    [Header("Key")]
+    public Text keyText;
     [Header("Sounds Sliders")]
     public Slider musicVolSlider, SfxVolSlider;
 
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (fadeToBlack)
+        if (fadeToBlack) //Crea una pantalla negra cuando el player muere
         {
             blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
             if (blackScreen.color.a == 1f)
@@ -55,22 +57,18 @@ public class UIManager : MonoBehaviour
     {
         gameManager.instance.PauseUnpase();
     }
-
     public void OpenOptions()
     {
         optionsScreen.SetActive(true);
     }
-
     public void CloseOptions()
     {
         optionsScreen.SetActive(false);
     }
-
     public void LevelSelect()
     {
 
     }
-
     public void MainMenu()
     {
 
