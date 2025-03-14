@@ -11,12 +11,13 @@ public class gameManager : MonoBehaviour
     private Vector3 respawnPosition;
     public int currentCoin;
     public int currentKey;
+    private List<GameObject> collectibles = new List<GameObject>(); //Optine los coleccionables
 
     private void Awake()
     {
         instance = this;
+        collectibles = new List<GameObject>(GameObject.FindGameObjectsWithTag("Collectible"));
     }
-
     void Start()
     {
         Cursor.visible = false;
@@ -26,7 +27,6 @@ public class gameManager : MonoBehaviour
         AddCoins(0);
         AddKey(0);
     }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -34,26 +34,19 @@ public class gameManager : MonoBehaviour
             PauseUnpase();
         }
     }
-
     public void Respawn() //Guarda la posicion del player cuando muere
     {
         StartCoroutine(RespawnWaiter());
         healthManager.Instance.PlayerKilled();
     }
-
     public IEnumerator RespawnWaiter()
     {
         Debug.Log("Jugador cayó fuera del mapa, reduciendo velocidad...");
+        playerController.instance.SetMoveSpeed(2f); // Reducir la velocidad antes de reaparecer
 
-        // Reducir la velocidad antes de reaparecer
-        playerController.instance.SetMoveSpeed(2f); // Velocidad baja antes del respawn
-
-        //Desactiva al jugador
-        playerController.instance.gameObject.SetActive(false);
+        playerController.instance.gameObject.SetActive(false);//Desactiva al jugador
         cameraController.instance.cmBrain.enabled = false;
-
-        //Desactiva la UI
-        UIManager.Instance.fadeToBlack = true;
+        UIManager.Instance.fadeToBlack = true;//Desactiva la UI
 
         //Activa el efecto del player
         Instantiate(deathEffect, playerController.instance.transform.position + new Vector3(0f, 1f, 0f), playerController.instance.transform.rotation);
@@ -62,24 +55,35 @@ public class gameManager : MonoBehaviour
 
         UIManager.Instance.fadeFromBlack = true;
 
-        //Restaura la posicion del jugador
-        playerController.instance.transform.position = respawnPosition;
+        playerController.instance.transform.position = respawnPosition;//Restaura la posicion del jugador
         Debug.Log("El jugador acaba de aparecer en: " + respawnPosition);
 
-        //Restaura la velocidad del jugador
-        playerController.instance.SetMoveSpeed(25f); // Restaurar velocidad normal
-
         //Reactiva al jugador
+        playerController.instance.SetMoveSpeed(25f); //Restaura la velocidad del jugador
         playerController.instance.gameObject.SetActive(true);
         cameraController.instance.cmBrain.enabled = true;
+        healthManager.Instance.ResetHealth();//Resetea la vida del jugador
+        AudioManager.instance.PlaySFX(soundToPlay);//Activa el sonido de Respawn
 
-        //Resetea la vida del jugador
-        healthManager.Instance.ResetHealth();
-
-        //Activa el sonido de Respawn
-        AudioManager.instance.PlaySFX(soundToPlay);
+        ResetText();
+        RespawnCollectibles();
     }
-
+    public void RespawnCollectibles()
+    {
+        foreach (GameObject collectible in collectibles)
+        {
+            collectible.SetActive(true); // Reactiva los coleccionables
+            Debug.Log("Los objetos se activaron");
+        }
+    }
+    public void DisableCollectible(GameObject collectible)
+    {
+        if (collectibles.Contains(collectible))
+        {
+            collectible.SetActive(false);//Desactiva los coleccionables
+            Debug.Log("Los objetos se desactivaron");
+        }
+    }
     public void SetSpawnPoint(Vector3 newSpawnPoint) //Punto donde aparecera el player
     {
         respawnPosition = newSpawnPoint;
@@ -94,6 +98,15 @@ public class gameManager : MonoBehaviour
     public void AddKey(int keyToAdd) //Agrega las keys a la pantalla
     {
         currentKey += keyToAdd;
+        UIManager.Instance.keyText.text = "" + currentKey;
+    }
+    public void ResetText()
+    {
+        // Reiniciar los coleccionables en UI
+        currentCoin = 0;
+        UIManager.Instance.coinText.text = "" + currentCoin;
+
+        currentKey = 0;
         UIManager.Instance.keyText.text = "" + currentKey;
     }
     public void PauseUnpase() //Pausa rl juego y abre el menu

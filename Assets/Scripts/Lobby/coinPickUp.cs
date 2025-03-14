@@ -13,8 +13,12 @@ public class coinPickUp : MonoBehaviour
         if (other.tag == "Player") //Añade el coin al texto y lo destruye de la pantalla
         {
             gameManager.instance.AddCoins(value);
-            Destroy(gameObject);
+
+            // Desactiva en lugar de destruir
+            gameManager.instance.DisableCollectible(gameObject);
+
             Instantiate(coinEffect, transform.position, transform.rotation);
+            gameObject.SetActive(false); // En lugar de Destroy
         }
     }
 }

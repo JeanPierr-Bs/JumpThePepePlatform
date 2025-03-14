@@ -13,7 +13,7 @@ public class healthPickUp : MonoBehaviour
         if (other.tag == "Player")
         {
 
-            Destroy(gameObject);
+            gameObject.SetActive(false);//Desactiva la vida
 
             //Activa el efecto del player
             Instantiate(healthEffect, playerController.instance.transform.position + new Vector3(0f, 1f, 0f), playerController.instance.transform.rotation);
