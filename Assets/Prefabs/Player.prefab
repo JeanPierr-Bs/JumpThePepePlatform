@@ -1236,6 +1236,37 @@ Transform:
   - {fileID: 4390437412827317087}
   m_Father: {fileID: 3477139093716154089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4771497873628694830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3054569823747034154}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3054569823747034154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771497873628694830}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3745874544453745585}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4800338390431546432
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,7 +1453,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3054569823747034154}
   m_Father: {fileID: 7338873029095830451}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &5333547095744429334
@@ -1760,7 +1792,7 @@ Transform:
   m_GameObject: {fileID: 8082887350321934558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1809,6 +1841,7 @@ GameObject:
   - component: {fileID: 1580029819019532004}
   - component: {fileID: 8759098065375068169}
   - component: {fileID: 2110033479409984830}
+  - component: {fileID: 5710345290886912855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1877,7 +1910,6 @@ MonoBehaviour:
   jumpForce: 20
   anim: {fileID: 2745532366029036440}
   gravityScale: 5
-  mouseSensitivity: 2
   playerCamera: {fileID: 0}
   playerModel: {fileID: 8640716701677802500}
   knockBackLength: 0.5
@@ -1889,6 +1921,25 @@ MonoBehaviour:
   - {fileID: 2236359030354782076}
   - {fileID: 1688527120776968781}
   - {fileID: 2985144514346445952}
+--- !u!114 &5710345290886912855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8640716701677802500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6a1a9316a02ed142a167546642ebcfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 2745532366029036440}
+  attackPoint: {fileID: 3054569823747034154}
+  attackRange: 1
+  attackDamage: 1
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8802306690884123412
 GameObject:
   m_ObjectHideFlags: 0

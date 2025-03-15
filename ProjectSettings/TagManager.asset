@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Collectible
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Grounded
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

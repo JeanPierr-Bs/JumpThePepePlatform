@@ -12,14 +12,12 @@ public class playerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private Animator anim;
     [SerializeField] private float gravityScale = 5f;
-    [SerializeField] private float mouseSensitivity = 2f;
     private Vector3 moveDirection;
 
     [Header("Camera")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private GameObject playerModel;
     private bool isFirstPerson = false;
-    private float rotationX = 0f;
 
     [Header("Knocking")]
     [SerializeField] private float knockBackLength = .5f;
@@ -94,21 +92,17 @@ public class playerController : MonoBehaviour
         Vector3 moveDir = (transform.forward * Input.GetAxisRaw("Vertical")) + (transform.right * Input.GetAxisRaw("Horizontal"));
         moveDirection.x = moveDir.x * moveSpeed;
         moveDirection.z = moveDir.z * moveSpeed;
+        Cursor.lockState = CursorLockMode.Locked;//Bloquea el mouse
+        Cursor.visible = false;
     }
 
     private void HandleFirstPersonView()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        Vector3 dir = playerCamera.transform.forward;
 
-        rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+        dir.y = 0;
 
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
-
-        // Mantener la cámara en la posición de la cabeza
-        //playerCamera.transform.position = firstPersonCameraPosition.position;
+        transform.forward = dir;
     }
 
     private void HandleFirstPersonMovement()
@@ -137,5 +131,12 @@ public class playerController : MonoBehaviour
         Debug.Log("Knoicoked Back");
         moveDirection.y = knockBackPower.y;
         charController.Move(moveDirection * Time.deltaTime);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<enemyBase>()?.TakeDamage(1);
+        }
     }
 }

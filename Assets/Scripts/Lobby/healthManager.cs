@@ -5,10 +5,13 @@ using UnityEngine;
 public class healthManager : MonoBehaviour
 {
     public static healthManager Instance;
+    public delegate void PlayerDied();
+    public static event PlayerDied OnPlayerDeath; // Evento de muerte
 
     [SerializeField] private int currentHealth, maxHealth;
     [SerializeField] private float invicibleLength = 2f;
     private float invincCounter;
+
 
     
     private void Awake()
@@ -50,7 +53,7 @@ public class healthManager : MonoBehaviour
 
             if (currentHealth <= 0)
             {
-                currentHealth = 0;
+                PlayerKilled();
                 gameManager.instance.Respawn();
             }
             else
@@ -83,5 +86,7 @@ public class healthManager : MonoBehaviour
     {
         currentHealth = 0;
         UpdateUI();
+
+        OnPlayerDeath?.Invoke(); // Notificar a los enemigos
     }
 }

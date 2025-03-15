@@ -44,7 +44,7 @@ public class cameraSwitcher : MonoBehaviour
             // Asegurar que el juego comience en tercera persona
             thirdPersonCamera.Priority = 10;
             firstPersonCamera.Priority = 0;
-            Cursor.lockState = CursorLockMode.Locked; // Bloquear cursor
+            Cursor.lockState = CursorLockMode.Locked;//Bloquea el mouse
             Cursor.visible = false;
             playerController.instance.SetFirstPerson(false);
 
