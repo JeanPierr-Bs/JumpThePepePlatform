@@ -93,12 +93,12 @@ public class gameManager : MonoBehaviour
     public void AddCoins(int coinsToAdd) //Agrega los coins a la pantalla
     {
         currentCoin += coinsToAdd;
-        UIManager.Instance.coinText.text = "" + currentCoin;
+        //UIManager.Instance.coinText.text = "" + currentCoin;
     }
     public void AddKey(int keyToAdd) //Agrega las keys a la pantalla
     {
         currentKey += keyToAdd;
-        UIManager.Instance.keyText.text = "" + currentKey;
+        //UIManager.Instance.keyText.text = "" + currentKey;
     }
     public void ResetText()
     {
